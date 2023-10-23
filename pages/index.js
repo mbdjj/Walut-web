@@ -2,7 +2,8 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { currency, currencyPlaceholder } from '@/helpers/currency';
+import { currencyPlaceholder } from '@/helpers/currency';
+import { getData } from '@/helpers/networkManager';
 
 const allCurrencyCodes = ["AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB", "TRY", "USD", "ZAR"]
 
@@ -10,9 +11,24 @@ export default function Home() {
   const [foreignCurrency, setForeignCurrency] = useState(currencyPlaceholder("EUR"))
   const [baseCurrency, setBaseCurrency] = useState(currencyPlaceholder("PLN"))
 
+  async function setForeignAndRefresh(code) {
+    setForeignCurrency(currencyPlaceholder(code))
+    fetchData(baseCurrency.code, code)
+  }
+  async function setBaseAndRefresh(code) {
+    setBaseCurrency(currencyPlaceholder(code))
+    fetchData(code)
+  }
+
+  async function fetchData(baseCode = baseCurrency.code, foreignCode = foreignCurrency.code) {
+    const newForeign = await getData(baseCode, foreignCode)
+    console.log(newForeign)
+    setForeignCurrency(newForeign)
+  }
+
   useEffect(() => {
-    
-  })
+    fetchData()
+  }, [])
 
   return (
     <>
@@ -29,14 +45,14 @@ export default function Home() {
 
           <div className={styles.fromToContainer}>
             <span>From: </span>
-            <select defaultValue={foreignCurrency.code}>
+            <select defaultValue={foreignCurrency.code} onChange={(e) => setForeignAndRefresh(e.target.value)}>
               {allCurrencyCodes.map((code) => {
                 const cur = currencyPlaceholder(code)
                 return <option key={cur.code} value={cur.code}>{`${cur.flag} ${cur.code}`}</option>
               })}
             </select>
             <span>To: </span>
-            <select defaultValue={baseCurrency.code}>
+            <select defaultValue={baseCurrency.code} onChange={(e) => setBaseAndRefresh(e.target.value)}>
               {allCurrencyCodes.map((code) => {
                 const cur = currencyPlaceholder(code)
                 return <option key={cur.code} value={cur.code}>{`${cur.flag} ${cur.code}`}</option>
@@ -59,10 +75,10 @@ export default function Home() {
           </div>
 
           <div className={styles.currencyInfoContainer}>
-            <div className={styles.flagCircle}>🇪🇺</div>
+            <div className={styles.flagCircle}>{foreignCurrency.flag}</div>
             <div className={styles.currencyTextContainer}>
-              <h3>Euro</h3>
-              <p>4,459 zł</p>
+              <h3>{foreignCurrency.name}</h3>
+              <p>{`${Math.round(foreignCurrency.price * 1000) / 1000} ${baseCurrency.symbol}`}</p>
             </div>
           </div>
 
