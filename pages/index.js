@@ -1,18 +1,26 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+import { currency, currencyPlaceholder } from '@/helpers/currency';
 
-const inter = Inter({ subsets: ['latin'] })
+const allCurrencyCodes = ["AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB", "TRY", "USD", "ZAR"]
 
 export default function Home() {
+  const [foreignCurrency, setForeignCurrency] = useState(currencyPlaceholder("EUR"))
+  const [baseCurrency, setBaseCurrency] = useState(currencyPlaceholder("PLN"))
+
+  useEffect(() => {
+    
+  })
+
   return (
     <>
       <Head>
         <title>Walut Web</title>
         <meta name="description" content="Walut - currency converter" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <main>
         <div className={styles.floatingWindow}>
@@ -21,12 +29,18 @@ export default function Home() {
 
           <div className={styles.fromToContainer}>
             <span>From: </span>
-            <select>
-              <option>🇪🇺 EUR</option>
+            <select defaultValue={foreignCurrency.code}>
+              {allCurrencyCodes.map((code) => {
+                const cur = currencyPlaceholder(code)
+                return <option key={cur.code} value={cur.code}>{`${cur.flag} ${cur.code}`}</option>
+              })}
             </select>
             <span>To: </span>
-            <select>
-              <option>🇵🇱 PLN</option>
+            <select defaultValue={baseCurrency.code}>
+              {allCurrencyCodes.map((code) => {
+                const cur = currencyPlaceholder(code)
+                return <option key={cur.code} value={cur.code}>{`${cur.flag} ${cur.code}`}</option>
+              })}
             </select>
           </div>
 
