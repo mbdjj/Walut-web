@@ -119,6 +119,6 @@ export function currency(code, rate) {
     name: nameDictionary[code],
     symbol: symbolDictionary[code],
     rate: rate,
-    price: 1 / rate
+    price: rate === 0 ? 0 : 1 / rate
   }
 }

@@ -8,6 +8,14 @@
   position: relative;
 }
 
+.topTextContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
 .fromToContainer {
   padding: 0 16px;
 }
@@ -53,10 +61,6 @@
   font-weight: 700;
   padding: 6px 0;
 }
-
-/* .swapButton {
-
-} */
 
 /* MARK: - Currency Info */
 
@@ -105,4 +109,12 @@
 
   position: absolute;
   bottom: 0;
+}
+
+@media (max-width: 611px) {
+  .floatingWindow {
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
 }
