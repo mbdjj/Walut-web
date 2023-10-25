@@ -19,8 +19,10 @@ export default function Home() {
   const [botAmount, setBotAmount] = useState(0)
 
   const [refreshDate, setRefreshDate] = useState(new Date(Date.UTC(2004, 1, 23, 21, 0, 0)))
-
   const dateOptions = {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}
+
+  const [isDecimal, setIsDecimal] = useState(false)
+  const [decimalDigits, setDecimalDigits] = useState(0)
 
   async function setForeignAndRefresh(code) {
     const newForeign = currencyPlaceholder(code)
@@ -53,10 +55,39 @@ export default function Home() {
 
   function keyPressed(key) {
     console.log(key)
-    if ("1234567890".includes(key)) {
-      setTopAmount(topAmount => topAmount * 10 + Number(key))
+    setDecimalDigits(n => n)
+    if ("123456789".includes(key)) {
+      if (!isDecimal) {
+        setTopAmount(topAmount => topAmount * 10 + Number(key))
+      } else if (decimalDigits < 2) {
+        const newDigits = decimalDigits + 1
+        setDecimalDigits(n => n += 1)
+
+        setTopAmount(n => n * Math.pow(10, newDigits))
+        setTopAmount(n => n += Number(key))
+        setTopAmount(n => n / Math.pow(10, newDigits))
+      }
     } else if (key == "Backspace") {
-      setTopAmount(topAmount => Math.floor(topAmount / 10))
+      if (!isDecimal) {
+        setTopAmount(topAmount => Math.floor(topAmount / 10))
+      } else if (decimalDigits == 0) {
+        setIsDecimal(false)
+      } else {
+        const newDigits = decimalDigits - 1
+        setDecimalDigits(n => n -= 1)
+
+        setTopAmount(n => n * Math.pow(10, newDigits))
+        setTopAmount(n => Math.floor(n))
+        setTopAmount(n => n / Math.pow(10, newDigits))
+      }
+    } else if (key == ".") {
+      setIsDecimal(true)
+    } else if (key == "0") {
+      if (!isDecimal) {
+        setTopAmount(topAmount => topAmount * 10 + Number(key))
+      } else if (decimalDigits < 2) {
+        setDecimalDigits(n => n += 1)
+      }
     }
   }
 
@@ -74,9 +105,27 @@ export default function Home() {
     setTopCurrency(botCurrency)
     setBotCurrency(tempTopCurrency)
 
-    const tempTopAmount = topAmount
-    setTopAmount(botAmount)
-    setBotAmount(tempTopAmount)
+    const newTopAmount = botAmount
+    setBotAmount(topAmount)
+    setTopAmount(newTopAmount)
+
+    const decimal = newTopAmount != Math.floor(newTopAmount)
+    console.log(`isDecimal = ${decimal}`)
+    setIsDecimal(decimal)
+    if (decimal) {
+      for (let i = 0; i <= 2; i += 1) {
+        let amount = newTopAmount
+        console.log(`amount = ${amount}`)
+        
+        if (amount * Math.pow(10, i) == Math.floor(amount * Math.pow(10, i))) {
+            setDecimalDigits(i)
+            break
+        } else if (i == 2) {
+            setDecimalDigits(i)
+            break
+        }
+    }
+    }
   }
 
   function clear() {
@@ -90,8 +139,8 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
+    console.log(`${topAmount} ${isDecimal}`)
     calcBottom(topAmount)
-    console.log(refreshDate)
     function handleKeyDown(e) {
       const key = e.key
       keyPressed(e.key)
@@ -101,7 +150,7 @@ export default function Home() {
     return function cleanup() {
       document.removeEventListener("keydown", handleKeyDown)
     }
-  }, [topAmount])
+  }, [topAmount, isDecimal, decimalDigits])
 
   return (
     <>
@@ -138,7 +187,7 @@ export default function Home() {
           <div className={styles.numbersContainer}>
             <div className={styles.foreignContainer}>
               <span className={styles.foreignCurrencyCode}>{topCurrency.code}</span>
-              <span className={styles.foreignAmount}>{topAmount}</span>
+              <span className={styles.foreignAmount}>{`${topAmount}${isDecimal && decimalDigits == 0 ? "." : ""}`}</span>
               <span className={styles.foreignCurrencyCode} style={{ opacity: 0 }}>{topCurrency.code}</span>
             </div>
             <div className={styles.baseContainer} onClick={() => { swapCurrencies()}}>

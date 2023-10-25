@@ -16,6 +16,10 @@
   padding: 16px;
 }
 
+.topTextContainer p {
+  color: #51B3AB;
+}
+
 .fromToContainer {
   padding: 0 16px;
 }
