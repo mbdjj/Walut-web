@@ -122,3 +122,13 @@
     border-radius: 0;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .floatingWindow {
+    background-color: #1C1B1D;
+  }
+
+  .clearButton {
+    background-color: #2C2B2D;
+  }
+}

@@ -9,7 +9,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
 }
 
 h1 {
@@ -37,8 +37,13 @@ select {
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
-    background-color: #16191D;
-    color: #FFFFFF;
+  main {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  select {
+    background-color: #2C2B2D;
+    color: #908F94;
   }
 }
