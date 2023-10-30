@@ -133,6 +133,8 @@ export default function Home() {
   function clear() {
     setTopAmount(0)
     calcBottom(0)
+    setIsDecimal(false)
+    setDecimalDigits(0)
   }
 
   function amountString() {
@@ -209,7 +211,7 @@ export default function Home() {
                 <span className={styles.foreignAmount}>{`${amountString()}`}</span>
                 <span className={styles.foreignCurrencyCode} style={{ opacity: 0 }}>{topCurrency.code}</span>
               </div>
-              <input type='text' style={{opacity: 0}} />
+              <input type='number' step={0.01} style={{opacity: 0}} />
             </div>
             <div className={styles.baseContainer} onClick={() => { swapCurrencies()}}>
               <span className={styles.baseCurrencyCode}>{botCurrency.code}</span>
