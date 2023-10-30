@@ -34,6 +34,7 @@ select {
 
   -webkit-appearance: none;
   -moz-appearance: none;
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {

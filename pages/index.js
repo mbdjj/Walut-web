@@ -88,6 +88,8 @@ export default function Home() {
       } else if (decimalDigits < 2) {
         setDecimalDigits(n => n += 1)
       }
+    } else if (key == " ") {
+      clear()
     }
   }
 
@@ -201,10 +203,13 @@ export default function Home() {
           </div>
 
           <div className={styles.numbersContainer}>
-            <div className={styles.foreignContainer}>
-              <span className={styles.foreignCurrencyCode}>{topCurrency.code}</span>
-              <span className={styles.foreignAmount}>{`${amountString("top")}`}</span>
-              <span className={styles.foreignCurrencyCode} style={{ opacity: 0 }}>{topCurrency.code}</span>
+            <div className={styles.zstack}>
+              <div className={styles.foreignContainer}>
+                <span className={styles.foreignCurrencyCode}>{topCurrency.code}</span>
+                <span className={styles.foreignAmount}>{`${amountString()}`}</span>
+                <span className={styles.foreignCurrencyCode} style={{ opacity: 0 }}>{topCurrency.code}</span>
+              </div>
+              <input type='text' style={{opacity: 0}} />
             </div>
             <div className={styles.baseContainer} onClick={() => { swapCurrencies()}}>
               <span className={styles.baseCurrencyCode}>{botCurrency.code}</span>
