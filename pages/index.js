@@ -133,6 +133,22 @@ export default function Home() {
     calcBottom(0)
   }
 
+  function amountString() {
+    const amount = topAmount
+
+    if (amount == Math.floor(amount) && isDecimal) {
+      let text = String(amount) + "."
+      for (let i = 0; i < decimalDigits; i += 1) {
+        text += "0"
+      }
+      return text
+    } else if (amount * 10 == Math.floor(amount * 10) && isDecimal && decimalDigits == 2) {
+      return String(amount) + "0"
+    } else {
+      return amount
+    }
+  }
+
   useEffect(() => {
     fetchData()
     setRefreshDate(new Date)
@@ -187,7 +203,7 @@ export default function Home() {
           <div className={styles.numbersContainer}>
             <div className={styles.foreignContainer}>
               <span className={styles.foreignCurrencyCode}>{topCurrency.code}</span>
-              <span className={styles.foreignAmount}>{`${topAmount}${isDecimal && decimalDigits == 0 ? "." : ""}`}</span>
+              <span className={styles.foreignAmount}>{`${amountString("top")}`}</span>
               <span className={styles.foreignCurrencyCode} style={{ opacity: 0 }}>{topCurrency.code}</span>
             </div>
             <div className={styles.baseContainer} onClick={() => { swapCurrencies()}}>
