@@ -80,7 +80,7 @@ export default function Home() {
         setTopAmount(n => Math.floor(n))
         setTopAmount(n => n / Math.pow(10, newDigits))
       }
-    } else if (key == ".") {
+    } else if (key == "." || key == ",") {
       setIsDecimal(true)
     } else if (key == "0") {
       if (!isDecimal) {
