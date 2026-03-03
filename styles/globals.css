@@ -37,6 +37,12 @@ select {
   cursor: pointer;
 }
 
+@media (max-width: 611px) {
+  main {
+    height: 100dvh;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   main {
     background-color: #000000;
