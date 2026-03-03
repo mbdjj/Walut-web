@@ -19,7 +19,7 @@ export default function Home() {
   const [botAmount, setBotAmount] = useState(0)
 
   const [refreshDate, setRefreshDate] = useState(new Date(Date.UTC(2004, 1, 23, 21, 0, 0)))
-  const dateOptions = {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}
+  const dateOptions = {year: "numeric", month: "2-digit", day: "2-digit"}
 
   const [isDecimal, setIsDecimal] = useState(false)
   const [decimalDigits, setDecimalDigits] = useState(0)

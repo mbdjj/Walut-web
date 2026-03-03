@@ -1,0 +1,31 @@
+.cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.textLeftSide {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.textVStack {
+  display: flex;
+  flex-direction: column;
+}
+
+p.flag {
+  font-size: 50px;
+}
+
+p.name {
+  font-size: 19px;
+  font-weight: 600;
+}
+
+p.code {
+  font-size: 14px;
+}

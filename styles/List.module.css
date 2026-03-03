@@ -1,0 +1,24 @@
+.floatingWindow {
+  width: calc(80vh / 4 * 3);
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  position: relative;
+  margin: 4rem 0;
+}
+
+.currencyList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+
+@media (max-width: 611px) {
+  .floatingWindow {
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+  }
+}
