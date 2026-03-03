@@ -5,5 +5,5 @@ export async function getData(baseCode, foreignCode) {
   const response = await fetch(url)
   const data = await response.json()
 
-  return currency(foreignCode, data.rates[foreignCode])
+  return currency(foreignCode, data.data.rates[foreignCode])
 }
